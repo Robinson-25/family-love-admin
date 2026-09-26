@@ -7,7 +7,7 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, mediaUrl } from "@/lib/api";
 
 type Proyecto = {
   id: number;
@@ -99,7 +99,7 @@ export default function ListaProyectosAdmin() {
           {proyectos.map((p) => (
             <div key={p.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="relative w-full h-36">
-                <Image src={p.imagen} alt={p.titulo} fill className="object-cover" />
+                <Image src={mediaUrl(p.imagen)} alt={p.titulo} fill className="object-cover" />
                 <span className="absolute top-2 left-2 bg-[#1a3a6b] text-white text-xs font-bold px-2 py-1 rounded-full">
                   {p.anio}
                 </span>

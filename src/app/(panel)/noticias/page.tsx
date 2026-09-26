@@ -7,7 +7,7 @@ import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, mediaUrl } from "@/lib/api";
 
 type Noticia = {
   id: number;
@@ -97,7 +97,7 @@ export default function ListaNoticiasAdmin() {
           {noticias.map((n) => (
             <div key={n.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="relative w-full h-36">
-                <Image src={n.imagen} alt={n.titulo} fill className="object-cover" />
+                <Image src={mediaUrl(n.imagen)} alt={n.titulo} fill className="object-cover" />
               </div>
               <div className="p-4">
                 <p className="text-xs text-gray-400 font-semibold mb-1">{n.fecha}</p>

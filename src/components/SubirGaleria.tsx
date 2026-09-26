@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Loader2, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, mediaUrl } from "@/lib/api";
 
 type Props = {
   label: string;
@@ -58,7 +58,7 @@ export default function SubirGaleria({ label, valores, onCambio }: Props) {
       <div className="flex flex-wrap gap-3">
         {valores.map((url, i) => (
           <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
-            <Image src={url} alt={`Foto ${i + 1}`} fill className="object-cover" />
+            <Image src={mediaUrl(url)} alt={`Foto ${i + 1}`} fill className="object-cover" />
             <button
               type="button"
               onClick={() => eliminarFoto(i)}

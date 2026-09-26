@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Loader2, Upload, X, Video as VideoIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, mediaUrl } from "@/lib/api";
 
 type Props = {
   label: string;
@@ -57,10 +57,10 @@ export default function SubirArchivo({ label, tipo, valor, onCambio }: Props) {
         <div className="relative w-full max-w-xs">
           {tipo === "imagen" ? (
             <div className="relative w-full h-40 rounded-xl overflow-hidden border border-gray-200">
-              <Image src={valor} alt={label} fill className="object-cover" />
+              <Image src={mediaUrl(valor)} alt={label} fill className="object-cover" />
             </div>
           ) : (
-            <video src={valor} controls className="w-full max-w-[200px] rounded-xl border border-gray-200" />
+            <video src={mediaUrl(valor)} controls className="w-full max-w-[200px] rounded-xl border border-gray-200" />
           )}
           <button
             type="button"

@@ -39,3 +39,12 @@ export async function apiFetch<T = any>(path: string, opts: Options = {}): Promi
     };
   }
 }
+
+// Las fotos antiguas se guardan como "/images/..." y viven en la carpeta public
+// del SITIO WEB, no del panel. Esta función arma la dirección completa.
+// Las de Cloudinary (https://...) se devuelven tal cual.
+export function mediaUrl(src?: string | null): string {
+  if (!src) return "";
+  if (src.startsWith("/")) return `${SITE_URL.replace(/\/$/, "")}${src}`;
+  return src;
+}
