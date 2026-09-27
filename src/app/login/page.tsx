@@ -6,12 +6,14 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
+import { SITE_URL } from "@/lib/api";
 
 const ERRORES: Record<string, string> = {
   NoAdmin: "Tu cuenta no tiene permisos de administrador",
   AccessDenied: "Acceso denegado",
   OAuthSignin: "No se pudo iniciar sesión con Google",
   OAuthCallback: "No se pudo iniciar sesión con Google",
+  Configuration: "Falta configurar NEXTAUTH_SECRET en el archivo .env.local del panel",
 };
 
 function LoginForm() {
@@ -85,6 +87,13 @@ function LoginForm() {
             Entrar
           </button>
         </form>
+
+        <a
+          href={`${SITE_URL}/recuperar-contrasena`}
+          className="mt-4 block text-center text-sm text-[#2251a3] hover:underline"
+        >
+          ¿Olvidaste tu contraseña?
+        </a>
 
         {process.env.NEXT_PUBLIC_GOOGLE_ENABLED === "true" && (
           <button
