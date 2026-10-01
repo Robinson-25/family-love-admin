@@ -6,6 +6,7 @@ import { Loader2, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { apiFetch, mediaUrl } from "@/lib/api";
+import { comprimirImagen, pesoEnMB, PESO_MAXIMO_IMAGEN } from "@/lib/comprimir";
 
 type Props = {
   label: string;
@@ -19,11 +20,18 @@ export default function SubirGaleria({ label, valores, onCambio }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const manejarArchivo = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const original = e.target.files?.[0];
+    if (!original) return;
 
     setSubiendo(true);
     try {
+      // Las fotos pesadas se reducen solas antes de subir
+      const file = await comprimirImagen(original);
+      if (file.size > PESO_MAXIMO_IMAGEN) {
+        toast.error(`La foto pesa ${pesoEnMB(file.size)} MB y el máximo es 10 MB. Usa una más liviana.`);
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 
