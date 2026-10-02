@@ -36,11 +36,7 @@ const vacio: ProyectoData = {
   emoji: "💙",
 };
 
-export default function ProyectoForm({
-  inicial,
-}: {
-  inicial?: ProyectoData;
-}) {
+export default function ProyectoForm({ inicial }: { inicial?: ProyectoData }) {
   const router = useRouter();
   const { data: session } = useSession();
   const [datos, setDatos] = useState<ProyectoData>(inicial || vacio);
@@ -55,16 +51,24 @@ export default function ProyectoForm({
   const guardar = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!datos.titulo || !datos.fecha || !datos.anio || !datos.resumen || !datos.descripcion || !datos.imagen || !datos.etiqueta) {
-      toast.error("Completa todos los campos obligatorios y sube al menos la imagen principal");
+    if (
+      !datos.titulo ||
+      !datos.fecha ||
+      !datos.anio ||
+      !datos.resumen ||
+      !datos.descripcion ||
+      !datos.imagen ||
+      !datos.etiqueta
+    ) {
+      toast.error(
+        "Completa todos los campos obligatorios y sube al menos la imagen principal",
+      );
       return;
     }
 
     setGuardando(true);
     try {
-      const url = esEdicion
-        ? `/proyectos/${inicial!.id}`
-        : "/proyectos";
+      const url = esEdicion ? `/proyectos/${inicial!.id}` : "/proyectos";
       const method = esEdicion ? "PUT" : "POST";
 
       const { ok, data } = await apiFetch(url, {
@@ -92,26 +96,38 @@ export default function ProyectoForm({
   };
 
   return (
-    <form onSubmit={guardar} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-6 max-w-3xl">
+    <form
+      onSubmit={guardar}
+      className="editor-form panel-card p-5 md:p-7 space-y-6"
+    >
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
+        <label
+          htmlFor="titulo"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
           Título del proyecto <span className="text-red-500">*</span>
         </label>
         <input
+          id="titulo"
           type="text"
           value={datos.titulo}
           onChange={(e) => actualizar("titulo", e.target.value)}
-          placeholder='Ej: Repartiendo Sonrisas y Sueños – CAR Virgen de Lourdes'
+          placeholder="Ej: Repartiendo Sonrisas y Sueños – CAR Virgen de Lourdes"
           className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#2251a3]"
         />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">
-            Fecha (como se muestra en la web) <span className="text-red-500">*</span>
+          <label
+            htmlFor="fecha"
+            className="block text-sm font-bold text-gray-700 mb-2"
+          >
+            Fecha (como se muestra en la web){" "}
+            <span className="text-red-500">*</span>
           </label>
           <input
+            id="fecha"
             type="text"
             value={datos.fecha}
             onChange={(e) => actualizar("fecha", e.target.value)}
@@ -120,10 +136,14 @@ export default function ProyectoForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">
+          <label
+            htmlFor="anio"
+            className="block text-sm font-bold text-gray-700 mb-2"
+          >
             Año del proyecto <span className="text-red-500">*</span>
           </label>
           <input
+            id="anio"
             type="number"
             value={datos.anio}
             onChange={(e) => actualizar("anio", e.target.value)}
@@ -131,17 +151,22 @@ export default function ProyectoForm({
             className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#2251a3]"
           />
           <p className="text-xs text-gray-400 mt-1">
-            Este es el año en el que aparecerá agrupado (pestañas 2025, 2024, etc.)
+            Este es el año en el que aparecerá agrupado (pestañas 2025, 2024,
+            etc.)
           </p>
         </div>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">
+          <label
+            htmlFor="etiqueta"
+            className="block text-sm font-bold text-gray-700 mb-2"
+          >
             Etiqueta / categoría <span className="text-red-500">*</span>
           </label>
           <input
+            id="etiqueta"
             type="text"
             value={datos.etiqueta}
             onChange={(e) => actualizar("etiqueta", e.target.value)}
@@ -150,10 +175,14 @@ export default function ProyectoForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-bold text-gray-700 mb-2">
+          <label
+            htmlFor="emoji"
+            className="block text-sm font-bold text-gray-700 mb-2"
+          >
             Emoji (opcional)
           </label>
           <input
+            id="emoji"
             type="text"
             value={datos.emoji}
             onChange={(e) => actualizar("emoji", e.target.value)}
@@ -165,10 +194,15 @@ export default function ProyectoForm({
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Resumen corto (aparece en la tarjeta del listado) <span className="text-red-500">*</span>
+        <label
+          htmlFor="resumen"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
+          Resumen corto (aparece en la tarjeta del listado){" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="resumen"
           value={datos.resumen}
           onChange={(e) => actualizar("resumen", e.target.value)}
           rows={2}
@@ -178,10 +212,15 @@ export default function ProyectoForm({
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Descripción completa (aparece al abrir el proyecto) <span className="text-red-500">*</span>
+        <label
+          htmlFor="descripcion"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
+          Descripción completa (aparece al abrir el proyecto){" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="descripcion"
           value={datos.descripcion}
           onChange={(e) => actualizar("descripcion", e.target.value)}
           rows={6}
@@ -210,19 +249,15 @@ export default function ProyectoForm({
         onCambio={(url) => actualizar("video", url)}
       />
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+      <div className="editor-actions flex justify-end gap-3 pt-4 border-t border-gray-100">
         <button
           type="button"
           onClick={() => router.push("/proyectos")}
-          className="px-6 py-2.5 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition-colors"
+          className="button-secondary"
         >
           Cancelar
         </button>
-        <button
-          type="submit"
-          disabled={guardando}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold bg-[#1a3a6b] hover:bg-[#2251a3] text-white transition-colors disabled:opacity-60"
-        >
+        <button type="submit" disabled={guardando} className="button-primary">
           {guardando ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (

@@ -27,9 +27,12 @@ export default function SubirArchivo({ label, tipo, valor, onCambio }: Props) {
     setSubiendo(true);
     try {
       // Las fotos pesadas se reducen solas antes de subir
-      const file = tipo === "imagen" ? await comprimirImagen(original) : original;
+      const file =
+        tipo === "imagen" ? await comprimirImagen(original) : original;
       if (tipo === "imagen" && file.size > PESO_MAXIMO_IMAGEN) {
-        toast.error(`La foto pesa ${pesoEnMB(file.size)} MB y el máximo es 10 MB. Usa una más liviana.`);
+        toast.error(
+          `La foto pesa ${pesoEnMB(file.size)} MB y el máximo es 10 MB. Usa una más liviana.`,
+        );
         return;
       }
 
@@ -48,7 +51,9 @@ export default function SubirArchivo({ label, tipo, valor, onCambio }: Props) {
       }
 
       onCambio(data.url);
-      toast.success(`${tipo === "imagen" ? "Imagen" : "Video"} subido correctamente`);
+      toast.success(
+        `${tipo === "imagen" ? "Imagen" : "Video"} subido correctamente`,
+      );
     } catch (error) {
       toast.error("Error al subir el archivo. Intenta de nuevo.");
     } finally {
@@ -59,27 +64,39 @@ export default function SubirArchivo({ label, tipo, valor, onCambio }: Props) {
 
   return (
     <div>
-      <label className="block text-sm font-bold text-gray-700 mb-2">{label}</label>
+      <label className="block text-sm font-bold text-gray-700 mb-2">
+        {label}
+      </label>
 
       {valor ? (
         <div className="relative w-full max-w-xs">
           {tipo === "imagen" ? (
             <div className="relative w-full h-40 rounded-xl overflow-hidden border border-gray-200">
-              <Image src={mediaUrl(valor)} alt={label} fill className="object-cover" />
+              <Image
+                src={mediaUrl(valor)}
+                alt={label}
+                fill
+                className="object-cover"
+              />
             </div>
           ) : (
-            <video src={mediaUrl(valor)} controls className="w-full max-w-[200px] rounded-xl border border-gray-200" />
+            <video
+              src={mediaUrl(valor)}
+              controls
+              className="w-full max-w-[200px] rounded-xl border border-gray-200"
+            />
           )}
           <button
             type="button"
+            aria-label={`Quitar ${tipo === "imagen" ? "imagen" : "video"}`}
             onClick={() => onCambio("")}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
+            className="media-remove absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       ) : (
-        <label className="flex flex-col items-center justify-center w-full max-w-xs h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#2251a3] hover:bg-gray-50 transition-colors">
+        <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-200 bg-slate-50/50 rounded-xl cursor-pointer hover:border-sky-400 hover:bg-sky-50 focus-within:ring-2 focus-within:ring-sky-400 transition-colors">
           {subiendo ? (
             <Loader2 className="w-6 h-6 animate-spin text-[#2251a3]" />
           ) : (
@@ -97,8 +114,9 @@ export default function SubirArchivo({ label, tipo, valor, onCambio }: Props) {
           <input
             ref={inputRef}
             type="file"
+            aria-label={label}
             accept={tipo === "imagen" ? "image/*" : "video/*"}
-            className="hidden"
+            className="sr-only"
             onChange={manejarArchivo}
             disabled={subiendo}
           />

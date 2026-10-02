@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import NoticiaForm from "../../_components/NoticiaForm";
+import EditorLayout from "@/components/EditorLayout";
 
 async function getNoticia(id: string) {
-  const { data } = await apiFetch<{ noticia: any }>(`/noticias/${encodeURIComponent(id)}`);
+  const { data } = await apiFetch<{ noticia: any }>(
+    `/noticias/${encodeURIComponent(id)}`,
+  );
   const noticia = data.noticia;
   if (!noticia) return null;
   return {
@@ -26,12 +29,8 @@ export default async function EditarNoticiaPage({
   if (!noticia) notFound();
 
   return (
-    <div>
-      <h2 className="text-2xl font-extrabold text-gray-900 mb-1">Editar noticia</h2>
-      <p className="text-gray-500 text-sm mb-6">
-        Modifica los datos y guarda los cambios. Se actualizará automáticamente en la web.
-      </p>
+    <EditorLayout type="noticias" editing>
       <NoticiaForm inicial={noticia} />
-    </div>
+    </EditorLayout>
   );
 }

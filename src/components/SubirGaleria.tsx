@@ -28,7 +28,9 @@ export default function SubirGaleria({ label, valores, onCambio }: Props) {
       // Las fotos pesadas se reducen solas antes de subir
       const file = await comprimirImagen(original);
       if (file.size > PESO_MAXIMO_IMAGEN) {
-        toast.error(`La foto pesa ${pesoEnMB(file.size)} MB y el máximo es 10 MB. Usa una más liviana.`);
+        toast.error(
+          `La foto pesa ${pesoEnMB(file.size)} MB y el máximo es 10 MB. Usa una más liviana.`,
+        );
         return;
       }
 
@@ -62,21 +64,32 @@ export default function SubirGaleria({ label, valores, onCambio }: Props) {
 
   return (
     <div>
-      <label className="block text-sm font-bold text-gray-700 mb-2">{label}</label>
+      <label className="block text-sm font-bold text-gray-700 mb-2">
+        {label}
+      </label>
       <div className="flex flex-wrap gap-3">
         {valores.map((url, i) => (
-          <div key={i} className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200">
-            <Image src={mediaUrl(url)} alt={`Foto ${i + 1}`} fill className="object-cover" />
+          <div
+            key={i}
+            className="relative w-24 h-24 rounded-lg overflow-hidden border border-gray-200"
+          >
+            <Image
+              src={mediaUrl(url)}
+              alt={`Foto ${i + 1}`}
+              fill
+              className="object-cover"
+            />
             <button
               type="button"
+              aria-label={`Quitar foto ${i + 1}`}
               onClick={() => eliminarFoto(i)}
-              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600"
+              className="media-remove absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600"
             >
               <X className="w-3 h-3" />
             </button>
           </div>
         ))}
-        <label className="flex items-center justify-center w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#2251a3] hover:bg-gray-50 transition-colors">
+        <label className="flex items-center justify-center w-24 h-24 border-2 border-dashed border-slate-200 bg-slate-50/50 rounded-xl cursor-pointer hover:border-sky-400 hover:bg-sky-50 focus-within:ring-2 focus-within:ring-sky-400 transition-colors">
           {subiendo ? (
             <Loader2 className="w-5 h-5 animate-spin text-[#2251a3]" />
           ) : (
@@ -85,16 +98,18 @@ export default function SubirGaleria({ label, valores, onCambio }: Props) {
           <input
             ref={inputRef}
             type="file"
+            aria-label="Agregar foto a la galería"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={manejarArchivo}
             disabled={subiendo}
           />
         </label>
       </div>
       <p className="text-xs text-gray-400 mt-1">
-        Puedes agregar varias fotos, una por una. La primera foto agregada arriba en
-        &quot;Imagen principal&quot; es la que se ve en la tarjeta del listado.
+        Puedes agregar varias fotos, una por una. La primera foto agregada
+        arriba en &quot;Imagen principal&quot; es la que se ve en la tarjeta del
+        listado.
       </p>
     </div>
   );

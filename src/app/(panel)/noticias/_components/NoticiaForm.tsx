@@ -42,7 +42,13 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
   const guardar = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!datos.titulo || !datos.resumen || !datos.contenido || !datos.imagen || !datos.fecha) {
+    if (
+      !datos.titulo ||
+      !datos.resumen ||
+      !datos.contenido ||
+      !datos.imagen ||
+      !datos.fecha
+    ) {
       toast.error("Completa todos los campos obligatorios y sube la imagen");
       return;
     }
@@ -74,12 +80,19 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
   };
 
   return (
-    <form onSubmit={guardar} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-6 max-w-3xl">
+    <form
+      onSubmit={guardar}
+      className="editor-form panel-card p-5 md:p-7 space-y-6"
+    >
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
+        <label
+          htmlFor="titulo"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
           Título de la noticia <span className="text-red-500">*</span>
         </label>
         <input
+          id="titulo"
           type="text"
           value={datos.titulo}
           onChange={(e) => actualizar("titulo", e.target.value)}
@@ -89,10 +102,15 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Fecha (como se muestra en la web) <span className="text-red-500">*</span>
+        <label
+          htmlFor="fecha"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
+          Fecha (como se muestra en la web){" "}
+          <span className="text-red-500">*</span>
         </label>
         <input
+          id="fecha"
           type="text"
           value={datos.fecha}
           onChange={(e) => actualizar("fecha", e.target.value)}
@@ -102,10 +120,15 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Resumen corto (aparece en la tarjeta del listado) <span className="text-red-500">*</span>
+        <label
+          htmlFor="resumen"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
+          Resumen corto (aparece en la tarjeta del listado){" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="resumen"
           value={datos.resumen}
           onChange={(e) => actualizar("resumen", e.target.value)}
           rows={2}
@@ -115,10 +138,15 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-gray-700 mb-2">
-          Contenido completo de la noticia <span className="text-red-500">*</span>
+        <label
+          htmlFor="contenido"
+          className="block text-sm font-bold text-gray-700 mb-2"
+        >
+          Contenido completo de la noticia{" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="contenido"
           value={datos.contenido}
           onChange={(e) => actualizar("contenido", e.target.value)}
           rows={8}
@@ -141,20 +169,20 @@ export default function NoticiaForm({ inicial }: { inicial?: NoticiaData }) {
         onCambio={(url) => actualizar("video", url)}
       />
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+      <div className="editor-actions flex justify-end gap-3 pt-4 border-t border-gray-100">
         <button
           type="button"
           onClick={() => router.push("/noticias")}
-          className="px-6 py-2.5 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition-colors"
+          className="button-secondary"
         >
           Cancelar
         </button>
-        <button
-          type="submit"
-          disabled={guardando}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold bg-[#1a3a6b] hover:bg-[#2251a3] text-white transition-colors disabled:opacity-60"
-        >
-          {guardando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        <button type="submit" disabled={guardando} className="button-primary">
+          {guardando ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Save className="w-4 h-4" />
+          )}
           {esEdicion ? "Guardar cambios" : "Publicar noticia"}
         </button>
       </div>

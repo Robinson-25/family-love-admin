@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import ProyectoForm from "../../_components/ProyectoForm";
+import EditorLayout from "@/components/EditorLayout";
 
 async function getProyecto(id: string) {
-  const { data } = await apiFetch<{ proyecto: any }>(`/proyectos/${encodeURIComponent(id)}`);
+  const { data } = await apiFetch<{ proyecto: any }>(
+    `/proyectos/${encodeURIComponent(id)}`,
+  );
   const proyecto = data.proyecto;
   if (!proyecto) return null;
   return {
@@ -30,12 +33,8 @@ export default async function EditarProyectoPage({
   if (!proyecto) notFound();
 
   return (
-    <div>
-      <h2 className="text-2xl font-extrabold text-gray-900 mb-1">Editar proyecto</h2>
-      <p className="text-gray-500 text-sm mb-6">
-        Modifica los datos y guarda los cambios. Se actualizará automáticamente en la web.
-      </p>
+    <EditorLayout type="proyectos" editing>
       <ProyectoForm inicial={proyecto} />
-    </div>
+    </EditorLayout>
   );
 }

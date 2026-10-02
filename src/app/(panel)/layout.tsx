@@ -1,13 +1,35 @@
 import SidebarAdmin from "@/components/SidebarAdmin";
+import AdminHeader from "@/components/AdminHeader";
 import { requireStaffSession } from "@/lib/session";
 
-export default async function PanelLayout({ children }: { children: React.ReactNode }) {
+export default async function PanelLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await requireStaffSession();
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
-      <SidebarAdmin nombre={session.user.name ?? ""} rol={session.user.role ?? ""} />
-      <main className="flex-1 p-4 md:p-8 w-full">{children}</main>
+    <div className="admin-shell">
+      <a href="#main-content" className="skip-link">
+        Saltar al contenido
+      </a>
+      <SidebarAdmin
+        nombre={session.user.name ?? ""}
+        rol={session.user.role ?? ""}
+      />
+      <div className="admin-workspace">
+        <AdminHeader />
+        <main id="main-content" className="admin-main">
+          {children}
+        </main>
+        <footer className="admin-footer">
+          <span>Family Love · Cada acción cuenta.</span>
+          <span>
+            Hecho con propósito <span aria-hidden="true">♡</span>
+          </span>
+        </footer>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,23 @@
 Panel para publicar y editar **Proyectos** y **Noticias** y ver las solicitudes de **Voluntarios**.
 Hecho con **Next.js 14 + Tailwind CSS**. Solo entran usuarios con rol `admin` o `colaborator`.
 
+## Dashboard
+- Resumen de proyectos, noticias, solicitudes de voluntariado y usuarios registrados.
+- Actividad de publicaciones en los últimos 6 o 12 meses, calculada con `createdAt` en la zona horaria de Lima.
+- Publicaciones recientes, últimas solicitudes y accesos directos a los editores.
+- Búsqueda, filtros, ordenación, paginación y vistas de tarjetas o lista para el contenido.
+- Directorio de voluntarios con búsqueda y filtro de solicitudes del mes.
+- Menú adaptable a móviles y búsqueda de secciones con `Ctrl/Cmd + K`.
+
+Las métricas se consultan en el backend existente. Si un servicio falla, el panel muestra el error y permite volver a intentarlo.
+
+### Verificación
+```bash
+npm test       # Fechas, periodos, ordenación y búsqueda
+npm run lint
+npm run build
+```
+
 ## Empezar
 ```bash
 npm install
