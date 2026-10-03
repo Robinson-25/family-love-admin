@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Loader2, LogIn } from "lucide-react";
+import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
 import toast from "react-hot-toast";
 import { SITE_URL } from "@/lib/api";
 
@@ -22,6 +22,7 @@ function LoginForm() {
   const errorUrl = params.get("error");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [verPassword, setVerPassword] = useState(false);
   const [cargando, setCargando] = useState(false);
 
   const entrar = async (e: React.FormEvent) => {
@@ -70,13 +71,25 @@ function LoginForm() {
           </div>
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">Contraseña</label>
-            <input
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#2251a3]"
-            />
+            <div className="relative">
+              <input
+                type={verPassword ? "text" : "password"}
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border border-gray-300 rounded-xl pl-4 pr-12 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#2251a3]"
+              />
+              {/* Botón para mostrar u ocultar la contraseña */}
+              <button
+                type="button"
+                onClick={() => setVerPassword(!verPassword)}
+                aria-label={verPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-pressed={verPassword}
+                className="absolute inset-y-0 right-0 flex items-center justify-center w-11 text-gray-400 hover:text-[#2251a3] rounded-r-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2251a3]"
+              >
+                {verPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
           <button
             type="submit"

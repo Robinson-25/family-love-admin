@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { LayoutDashboard, FolderKanban, Newspaper, Users, Globe, LogOut } from "lucide-react";
+import { LayoutDashboard, FolderKanban, Newspaper, Users, Contact, Globe, LogOut } from "lucide-react";
 import { SITE_URL } from "@/lib/api";
 
 const links = [
@@ -11,6 +11,7 @@ const links = [
   { href: "/proyectos", label: "Proyectos Realizados", icon: FolderKanban },
   { href: "/noticias", label: "Noticias", icon: Newspaper },
   { href: "/voluntarios", label: "Voluntarios", icon: Users },
+  { href: "/equipo", label: "Equipo Directivo", icon: Contact },
 ];
 
 export default function SidebarAdmin({ nombre, rol }: { nombre: string; rol: string }) {
